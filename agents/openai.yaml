@@ -1,0 +1,4 @@
+interface:
+  display_name: "Desktop Organizer"
+  short_description: "Preview and organize Windows desktop items"
+  default_prompt: "Scan my Windows desktop and generate a classification preview without moving or deleting files."
