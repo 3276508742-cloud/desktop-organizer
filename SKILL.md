@@ -10,7 +10,7 @@ Use this skill for Windows desktop classification and cleanup. Treat the desktop
 ## Core Rules
 
 - Default to dry-run preview only. Do not move, delete, rename, or modify files unless the user explicitly confirms.
-- Generate a classification report with: name, path, type, shortcut target path, suggested category, match reason, confidence, and whether movement is suggested.
+- Generate a classification report with: name, path, type, shortcut target path, suggested category, bilingual category label, match reason, confidence, and whether movement is suggested.
 - For `.lnk` shortcuts, classify by target path when readable. Do not classify by `.lnk` extension.
 - If a shortcut target cannot be read or does not exist, classify it as `待确认`.
 - Put all low-confidence or conflicting items into `待确认`.
@@ -53,7 +53,7 @@ Step 5: Generate an organize log.
 
 Use this priority order for rule evaluation, while keeping genuinely conflicting multi-category items in `待确认`:
 
-`安装包 > 文档 > 开发工具 > 游戏 > 系统工具 > 通讯远程 > 多媒体设计 > 办公学习 > 图片截图 > 待确认`
+`安装包 (Installers) > 文档 (Documents) > 开发工具 (Development Tools) > 游戏 (Games) > 系统工具 (System Tools) > 通讯远程 (Messaging & Remote Access) > 多媒体设计 (Media & Design) > 办公学习 (Office & Study) > 图片截图 (Images & Screenshots) > 待确认 (Needs Review)`
 
 Detailed rules live in `references/classification_rules.md`. Load that file when reviewing or changing classification behavior.
 

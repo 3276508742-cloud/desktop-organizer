@@ -32,6 +32,19 @@ $CategoryFolders = @{
     "待确认" = "待确认"
 }
 
+$CategoryLabels = @{
+    "安装包" = "安装包 (Installers)"
+    "文档" = "文档 (Documents)"
+    "开发工具" = "开发工具 (Development Tools)"
+    "游戏" = "游戏 (Games)"
+    "系统工具" = "系统工具 (System Tools)"
+    "通讯远程" = "通讯远程 (Messaging & Remote Access)"
+    "多媒体设计" = "多媒体设计 (Media & Design)"
+    "办公学习" = "办公学习 (Office & Study)"
+    "图片截图" = "图片截图 (Images & Screenshots)"
+    "待确认" = "待确认 (Needs Review)"
+}
+
 $ExtensionCategories = @{
     ".exe" = "安装包"; ".msi" = "安装包"; ".zip" = "安装包"; ".rar" = "安装包"
     ".7z" = "安装包"; ".iso" = "安装包"; ".apk" = "安装包"; ".tar" = "安装包"; ".gz" = "安装包"
@@ -149,6 +162,7 @@ function New-Result {
         Type = $Type
         ShortcutTargetPath = $ShortcutTarget
         SuggestedCategory = $Category
+        SuggestedCategoryLabel = if ($CategoryLabels.ContainsKey($Category)) { $CategoryLabels[$Category] } else { $Category }
         MatchReason = $Reason
         Confidence = $Confidence
         ShouldMove = if ($Category -eq "待确认" -or $Confidence -eq "低") { "No" } else { "Yes" }
@@ -324,10 +338,10 @@ function Write-Reports {
     $lines = @()
     $lines += "# Desktop Classification Preview"
     $lines += ""
-    $lines += "| 名称 | 路径 | 类型 | 目标路径 | 建议分类 | 命中原因 | 置信度 | 是否建议移动 |"
-    $lines += "|---|---|---|---|---|---|---|---|"
+    $lines += "| 名称 | 路径 | 类型 | 目标路径 | 建议分类 | 分类标注 | 命中原因 | 置信度 | 是否建议移动 |"
+    $lines += "|---|---|---|---|---|---|---|---|---|"
     foreach ($row in $Rows) {
-        $lines += "| $($row.Name) | $($row.Path) | $($row.Type) | $($row.ShortcutTargetPath) | $($row.SuggestedCategory) | $($row.MatchReason) | $($row.Confidence) | $($row.ShouldMove) |"
+        $lines += "| $($row.Name) | $($row.Path) | $($row.Type) | $($row.ShortcutTargetPath) | $($row.SuggestedCategory) | $($row.SuggestedCategoryLabel) | $($row.MatchReason) | $($row.Confidence) | $($row.ShouldMove) |"
     }
     Set-Content -LiteralPath $md -Value $lines -Encoding UTF8
 
@@ -358,7 +372,7 @@ if (-not $Apply) {
 
 $moveRows = $rows.ToArray() | Where-Object { $_.ShouldMove -eq "Yes" }
 Write-Output "Apply requested. Items that will be moved:"
-$moveRows | Select-Object Name, Path, SuggestedCategory | Format-Table -AutoSize
+$moveRows | Select-Object Name, Path, SuggestedCategory, SuggestedCategoryLabel | Format-Table -AutoSize
 
 $organizeLog = @()
 foreach ($row in $moveRows) {
@@ -372,6 +386,7 @@ foreach ($row in $moveRows) {
     $organizeLog += [pscustomobject]@{
         Name = $row.Name
         Category = $row.SuggestedCategory
+        CategoryLabel = $row.SuggestedCategoryLabel
         Source = $row.Path
         Destination = $dest
         Reason = $row.MatchReason

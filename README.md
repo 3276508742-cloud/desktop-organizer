@@ -25,7 +25,7 @@ The author is not responsible for accidental file movement, incorrect classifica
 - Also checks the OneDrive desktop when present.
 - Reads Windows shortcut targets with `WScript.Shell`.
 - Scans only the desktop and the first level of folders.
-- Generates preview reports in CSV and Markdown.
+- Generates preview reports in CSV and Markdown, including Chinese categories with English labels.
 - Can optionally move high-confidence items after explicit confirmation.
 
 ## What It Does Not Do
@@ -39,16 +39,16 @@ The author is not responsible for accidental file movement, incorrect classifica
 
 Classification priority:
 
-1. 安装包
-2. 文档
-3. 开发工具
-4. 游戏
-5. 系统工具
-6. 通讯远程
-7. 多媒体设计
-8. 办公学习
-9. 图片截图
-10. 待确认
+1. 安装包 (Installers)
+2. 文档 (Documents)
+3. 开发工具 (Development Tools)
+4. 游戏 (Games)
+5. 系统工具 (System Tools)
+6. 通讯远程 (Messaging & Remote Access)
+7. 多媒体设计 (Media & Design)
+8. 办公学习 (Office & Study)
+9. 图片截图 (Images & Screenshots)
+10. 待确认 (Needs Review)
 
 Detailed rules are stored in:
 
